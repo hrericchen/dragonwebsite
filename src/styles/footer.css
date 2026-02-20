@@ -1,0 +1,79 @@
+/* ===========================================
+   Footer Styles — Dragon Swim Team
+   =========================================== */
+
+.footer {
+    background: var(--color-dark);
+    color: #ccc;
+    padding: var(--space-3xl) 0 var(--space-lg);
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-2xl);
+    margin-bottom: var(--space-2xl);
+}
+
+.footer-brand {
+    max-width: 320px;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: var(--fs-xl);
+    font-weight: var(--fw-bold);
+    color: #fff;
+    margin-bottom: var(--space-md);
+}
+
+.footer-tagline {
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+    color: #999;
+}
+
+.footer-heading {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-md);
+}
+
+.footer-list li {
+    margin-bottom: var(--space-sm);
+}
+
+.footer-list a,
+.footer-list li {
+    font-size: var(--fs-sm);
+    color: #999;
+    transition: color var(--transition-fast);
+}
+
+.footer-list a:hover {
+    color: var(--color-primary);
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: var(--space-lg);
+    text-align: center;
+}
+
+.footer-bottom p {
+    font-size: var(--fs-xs);
+    color: #666;
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-xl);
+    }
+}

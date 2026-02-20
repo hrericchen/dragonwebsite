@@ -1,0 +1,99 @@
+/* ===========================================
+   Design Tokens — Dragon Swim Team
+   Colors: Black, Gold/Yellow, Red
+   =========================================== */
+
+:root {
+  /* ── Brand Colors ── */
+  /* primary: Dragon Black */
+  --color-primary: #1A1A1A;
+  --color-primary-light: #2A2A2A;
+  --color-primary-dark: #000000;
+
+  /* secondary: Yellow/Gold */
+  --color-secondary: #F5C518;
+  --color-secondary-light: #FCE883;
+  --color-secondary-dark: #D4A700;
+
+  /* accent: True Red */
+  --color-accent: #DC2626;
+  --color-accent-light: #EF4444;
+  --color-accent-dark: #B91C1C;
+  --color-dark: #1A1A1A;
+  /* Near Black */
+  --color-dark-soft: #2A2A2A;
+
+  /* ── Light Theme (default) ── */
+  --bg-primary: #FAFAFA;
+  --bg-secondary: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-nav: rgba(255, 255, 255, 0.85);
+  --text-primary: #1A1A1A;
+  --text-secondary: #555555;
+  --text-muted: #888888;
+  --border-color: #E5E5E5;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.1);
+
+  /* ── Typography ── */
+  --font-sans: 'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  --font-display: 'Outfit',
+    var(--font-sans);
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-md: 1.125rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: 2.5rem;
+  --fs-4xl: 3.5rem;
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+
+  /* ── Spacing ── */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+
+  /* ── Layout ── */
+  --max-width: 1200px;
+  --nav-height: 64px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* ── Transitions ── */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+/* ── Dark Theme ── */
+[data-theme="dark"] {
+  --bg-primary: #121212;
+  --bg-secondary: #1E1E1E;
+  --bg-card: #242424;
+  --bg-nav: rgba(18, 18, 18, 0.9);
+  --text-primary: #F0F0F0;
+  --text-secondary: #B0B0B0;
+  --text-muted: #777777;
+  --border-color: #333333;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.4);
+}

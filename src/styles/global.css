@@ -1,0 +1,234 @@
+/* ===========================================
+   Global Styles — Dragon Swim Team
+   =========================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap');
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--fs-base);
+    font-weight: var(--fw-normal);
+    color: var(--text-primary);
+    background-color: var(--bg-primary);
+    transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* ── Container ── */
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+}
+
+/* ── Section ── */
+.section {
+    padding: var(--space-4xl) 0;
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-3xl);
+    font-weight: var(--fw-extrabold);
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+}
+
+.section-subtitle {
+    font-size: var(--fs-md);
+    color: var(--text-secondary);
+    max-width: 600px;
+}
+
+/* ── Buttons ── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: 0.75rem 1.75rem;
+    font-weight: var(--fw-semibold);
+    font-size: var(--fs-sm);
+    border-radius: var(--radius-full);
+    transition: all var(--transition-fast);
+    letter-spacing: 0.01em;
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-gradient {
+    /* White and red gradient */
+    background: linear-gradient(135deg, #ffffff, var(--color-accent));
+    color: var(--color-primary-dark);
+    border: none;
+    font-weight: var(--fw-bold);
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(135deg, #f0f0f0, var(--color-accent-dark));
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-accent {
+    background: var(--color-accent);
+    color: #fff;
+}
+
+.btn-accent:hover {
+    background: var(--color-accent-light);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn-outline {
+    border: 2px solid var(--border-color);
+    color: var(--text-primary);
+    background: transparent;
+}
+
+.btn-outline:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.btn-lg {
+    padding: 1rem 2.25rem;
+    font-size: var(--fs-base);
+}
+
+/* ── Cards ── */
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    transition: all var(--transition-base);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+/* ── Form Elements ── */
+.form-group {
+    margin-bottom: var(--space-lg);
+}
+
+.form-label {
+    display: block;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: var(--fs-base);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    transition: border-color var(--transition-fast);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.15);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* ── Badge ── */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-primary {
+    background: rgba(245, 197, 24, 0.15);
+    color: var(--color-primary-dark);
+}
+
+[data-theme="dark"] .badge-primary {
+    color: var(--color-primary);
+}
+
+/* ── Utility ── */
+.text-center {
+    text-align: center;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ── Page Wrapper ── */
+.page-wrapper {
+    padding-top: var(--nav-height);
+}
+
+/* ── Divider ── */
+.divider {
+    height: 3px;
+    width: 60px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    border-radius: var(--radius-full);
+    margin: var(--space-md) 0;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .section {
+        padding: var(--space-2xl) 0;
+    }
+
+    .section-title {
+        font-size: var(--fs-2xl);
+    }
+
+    .container {
+        padding: 0 var(--space-md);
+    }
+}
+
+/* ── Animations ── */
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.animate-visible {
+    opacity: 1;
+    transform: translateY(0);
+}

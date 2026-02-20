@@ -1,0 +1,226 @@
+/* ===========================================
+   Navbar Styles — Dragon Swim Team
+   =========================================== */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    height: var(--nav-height);
+    background: var(--bg-nav);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: all var(--transition-base);
+}
+
+.navbar.scrolled {
+    border-bottom-color: var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+/* Logo */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+}
+
+.nav-logo-img {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+}
+
+.dark-logo {
+    display: none;
+}
+
+[data-theme="dark"] .light-logo {
+    display: none;
+}
+
+[data-theme="dark"] .dark-logo {
+    display: block;
+    filter: brightness(0) invert(1);
+}
+
+.nav-logo:hover {
+    opacity: 0.8;
+}
+
+.nav-logo-icon {
+    font-size: 1.5rem;
+}
+
+/* Links */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.nav-link {
+    padding: 0.5rem 1rem;
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.nav-link:hover {
+    color: var(--text-primary);
+    background: rgba(245, 197, 24, 0.08);
+}
+
+.nav-link.active {
+    color: var(--color-primary-dark);
+    font-weight: var(--fw-semibold);
+}
+
+[data-theme="dark"] .nav-link.active {
+    color: var(--color-primary);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: var(--color-primary);
+    border-radius: var(--radius-full);
+}
+
+.nav-link-signin {
+    background: #000000;
+    color: #ffffff !important;
+    font-weight: var(--fw-semibold);
+    border-radius: var(--radius-full);
+    padding: 0.5rem 1.25rem;
+}
+
+.nav-link-signin:hover {
+    background: #333333 !important;
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .nav-link-signin {
+    background: #ffffff;
+    color: #000000 !important;
+}
+
+[data-theme="dark"] .nav-link-signin:hover {
+    background: #cccccc !important;
+}
+
+.nav-link-signin.active::after {
+    display: none;
+}
+
+/* Actions */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.nav-theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.nav-theme-toggle:hover {
+    background: rgba(245, 197, 24, 0.1);
+    color: var(--color-primary);
+}
+
+/* Hamburger */
+.nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    padding: 8px;
+}
+
+.nav-hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: all var(--transition-fast);
+}
+
+.nav-hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.nav-hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* ── Mobile ── */
+@media (max-width: 768px) {
+    .nav-hamburger {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--bg-secondary);
+        border-bottom: 1px solid var(--border-color);
+        padding: var(--space-lg);
+        gap: var(--space-xs);
+        transform: translateY(-120%);
+        opacity: 0;
+        transition: all var(--transition-base);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .nav-links.open {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+        padding: 0.75rem 1rem;
+    }
+
+    .nav-link-signin {
+        margin-top: var(--space-sm);
+    }
+}
