@@ -1,4 +1,4 @@
-import{i as o}from"./theme-toggle-BN4tHHK6.js";import{r as s,a as l}from"./footer-3ryIaRvr.js";o();s();const r=document.getElementById("app");r.innerHTML=`
+import{i as o}from"./theme-toggle-CI3g1rpd.js";import{r as s,a as l}from"./footer-BQePl1TG.js";o();s();const r=document.getElementById("app");r.innerHTML=`
   <section class="section" style="min-height: calc(100vh - var(--nav-height)); display: flex; align-items: center;">
     <div class="container" style="max-width: 800px;">
       <div class="text-center" style="margin-bottom: var(--space-2xl);">
