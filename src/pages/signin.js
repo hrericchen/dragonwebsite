@@ -42,8 +42,8 @@ function render() {
           <div class="signin-card">
             <div class="signin-header">
               <div class="signin-logo">
-                <img src="/logo-light.jpg" alt="Dragon Swim Team" class="nav-logo-img, light-logo" style="height:60px" />
-                <img src="/logo-dark.png" alt="Dragon Swim Team" class="nav-logo-img, dark-logo" style="height:60px" />
+                <img src="${import.meta.env.BASE_URL}logo-light.jpg" alt="Dragon Swim Team" class="nav-logo-img, light-logo" style="height:60px" />
+                <img src="${import.meta.env.BASE_URL}logo-dark.png" alt="Dragon Swim Team" class="nav-logo-img, dark-logo" style="height:60px" />
               </div>
               <h1 class="signin-title">${isSignUp ? t('signup_title') : t('signin_title')}</h1>
               <p class="signin-subtitle">${t('signin_subtitle')}</p>
@@ -159,11 +159,11 @@ function bindEvents() {
           createdAt: new Date()
         });
 
-        window.location.href = '/dashboard.html';
+        window.location.href = import.meta.env.BASE_URL + 'dashboard.html';
       } else {
         // Sign In
         await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = '/dashboard.html';
+        window.location.href = import.meta.env.BASE_URL + 'dashboard.html';
       }
     } catch (error) {
       console.error(error);
@@ -185,7 +185,7 @@ function bindEvents() {
         lastLoginAt: new Date()
       }, { merge: true });
 
-      window.location.href = '/dashboard.html';
+      window.location.href = import.meta.env.BASE_URL + 'dashboard.html';
     } catch (error) {
       console.error(error);
       showError(error.message || 'Google sign in failed');

@@ -10,6 +10,7 @@ import './dashboard.css';
 
 import { initTheme, toggleTheme, updateToggleIcon } from '../components/theme-toggle.js';
 import { t } from '../utils/i18n.js';
+import { auth, onAuthStateChanged, signOut } from '../utils/firebase.js';
 
 initTheme();
 
@@ -45,14 +46,30 @@ let isMobileMenuOpen = false;
 
 function render() {
   const app = document.getElementById('app');
+
+  // Add auth check before rendering content
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      // Not signed in, redirect
+      window.location.href = import.meta.env.BASE_URL + 'signin.html';
+      return; // Stop rendering
+    }
+
+    // User is signed in, display dashboard
+    renderDashboard(user);
+  });
+}
+
+function renderDashboard(user) {
+  const app = document.getElementById('app');
   app.innerHTML = `
     <div class="dash-layout">
       <!-- Sidebar -->
       <aside class="dash-sidebar" id="dash-sidebar">
         <div class="dash-sidebar-header">
-          <a href="/" class="dash-logo">
-            <img src="/logo-light.jpg" alt="Dragon Swim Team" class="dash-logo-img light-logo" />
-            <img src="/logo-dark.png" alt="Dragon Swim Team" class="dash-logo-img dark-logo" />
+          <a href="${import.meta.env.BASE_URL}" class="dash-logo">
+            <img src="${import.meta.env.BASE_URL}logo-light.jpg" alt="Dragon Swim Team" class="dash-logo-img light-logo" />
+            <img src="${import.meta.env.BASE_URL}logo-dark.png" alt="Dragon Swim Team" class="dash-logo-img dark-logo" />
           </a>
         </div>
         <nav class="dash-nav">
@@ -73,7 +90,7 @@ function render() {
           </div>
           <div class="dash-nav-section" style="margin-top: auto;">
             <span class="dash-nav-label">System</span>
-            <a href="/contact.html" class="dash-nav-item" style="text-decoration: none;">
+            <a href="${import.meta.env.BASE_URL}contact.html" class="dash-nav-item" style="text-decoration: none;">
               <span class="dash-nav-icon">💬</span> Messages
             </a>
             <button class="dash-nav-item" id="dash-theme-toggle">
@@ -105,8 +122,8 @@ function render() {
               <input type="text" class="dash-search-input" placeholder="Search...">
             </div>
             <div class="dash-user">
-              <div class="dash-avatar" id="dash-user-initial">D</div>
-              <div class="dash-user-name" id="dash-user-name-display">Swimmer</div>
+              <div class="dash-avatar" id="dash-user-initial">${(user.displayName || user.email || 'D').charAt(0).toUpperCase()}</div>
+              <div class="dash-user-name" id="dash-user-name-display">${user.displayName || user.email || 'Swimmer'}</div>
             </div>
           </div>
         </header>
@@ -378,8 +395,19 @@ function bindEvents() {
   // Register buttons
   document.querySelectorAll('.dash-register-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      window.location.href = '/registration.html';
+      window.location.href = import.meta.env.BASE_URL + 'registration.html';
     });
+  });
+
+  // Sign out button
+  document.getElementById('sidebar-signout')?.addEventListener('click', async () => {
+    try {
+      await signOut(auth);
+      // Redirect happens automatically due to onAuthStateChanged, but we can force it:
+      window.location.href = import.meta.env.BASE_URL + 'signin.html';
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
   });
 }
 

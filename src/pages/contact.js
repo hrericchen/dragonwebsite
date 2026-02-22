@@ -79,3 +79,23 @@ document.getElementById('contact-form').addEventListener('submit', (e) => {
   document.getElementById('contact-form').style.display = 'none';
   document.getElementById('contact-success').style.display = 'block';
 });
+
+// ── Intersection Observer for Animations ──
+const observerOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.15
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animate-visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.animate-on-scroll').forEach(el => {
+  observer.observe(el);
+});

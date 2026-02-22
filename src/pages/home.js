@@ -29,10 +29,10 @@ app.innerHTML = `
         <h1 class="hero-title">Train, Compete &amp; Grow with <span class="text-gradient">Dragon Swim</span></h1>
         <p class="hero-subtitle">${t('hero_subtitle')}</p>
         <div class="hero-actions">
-          <a href="/registration.html" class="btn btn-gradient btn-lg">
+          <a href="${import.meta.env.BASE_URL}registration.html" class="btn btn-gradient btn-lg">
             ${t('hero_cta')} <span class="btn-arrow">→</span>
           </a>
-          <a href="/signin.html" class="btn btn-outline btn-lg">Sign In</a>
+          <a href="${import.meta.env.BASE_URL}signin.html" class="btn btn-outline btn-lg">Sign In</a>
         </div>
       </div>
       <div class="hero-right">
@@ -57,7 +57,7 @@ app.innerHTML = `
           <!-- Central dragon -->
           <div class="hero-central-icon">
             <div class="hero-central-ring"></div>
-            <img src="/placeholder-hero.jpg" alt="Dragon" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; background: var(--border-color); border: 4px solid var(--bg-card); box-shadow: var(--shadow-lg); position: relative; z-index: 10;" />
+            <img src="${import.meta.env.BASE_URL}placeholder-hero.jpg" alt="Dragon" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; background: var(--border-color); border: 4px solid var(--bg-card); box-shadow: var(--shadow-lg); position: relative; z-index: 10;" />
           </div>
           <!-- Connecting dots -->
           <div class="hero-dot dot-1"></div>
@@ -76,38 +76,35 @@ app.innerHTML = `
   </section>
 
   <!-- Meet the Team Section -->
-  <section class="section team-section">
+  <section class="section team-intro-section">
     <div class="container">
       <div class="text-center animate-on-scroll" style="margin-bottom: var(--space-2xl);">
-        <span class="badge badge-primary">Our Coaches</span>
+        <span class="badge badge-primary">Our Journey</span>
         <h2 class="section-title" style="margin-top: var(--space-md);">Meet The Team</h2>
         <div class="divider" style="margin: var(--space-md) auto;"></div>
         <p class="section-subtitle" style="margin: 0 auto;">Dedicated professionals committed to helping you reach your full potential in the water.</p>
+      </div>
+      
+      <div class="team-photo-wrapper animate-on-scroll" style="margin-bottom: var(--space-2xl); text-align: center;">
+        <div style="width: 100%; max-width: 900px; height: 400px; background: var(--bg-secondary); border-radius: var(--radius-lg); display: inline-flex; align-items: center; justify-content: center; border: 2px dashed var(--border-color); margin: 0 auto;">
+          <span style="color: var(--text-muted); font-weight: var(--fw-medium);">[ Team Photo ]</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet the Coaches Section -->
+  <section class="section coaches-section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="text-center animate-on-scroll" style="margin-bottom: var(--space-2xl);">
+        <span class="badge badge-primary">Leadership</span>
+        <h2 class="section-title" style="margin-top: var(--space-md);">Meet Our Coaches</h2>
+        <div class="divider" style="margin: var(--space-md) auto;"></div>
       </div>
       <div class="team-grid animate-on-scroll" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-lg);">
         ${teamCard('Coach Martinez', 'Head Coach', 'Specializes in distance, endurance, and overall program structure.')}
         ${teamCard('Coach Kim', 'Assistant Coach', 'Focuses on stroke technique, fundamentals, and core strength.')}
         ${teamCard('Coach Davis', 'IM Specialist', 'Expert in Individual Medley, sprints, and race-day logistics.')}
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section class="section features-section">
-    <div class="container animate-on-scroll">
-      <div class="features-header">
-        <span class="features-label badge badge-primary">Features</span>
-        <h2 class="section-title">Everything You Need to Swim Smarter</h2>
-        <div class="divider" style="margin: var(--space-md) 0;"></div>
-        <p class="section-subtitle">Our platform organizes your entire swim journey — from seasonal registration to race-day logistics.</p>
-      </div>
-      <div class="features-grid">
-        ${featureCard('📋', 'Seasonal Registration', 'Sign up for Spring, Summer, Fall, or Winter programs with a single click. Track your enrollment status anytime.')}
-        ${featureCard('🏆', 'Swim Meet Hub', 'View upcoming competitions, register for events, and see results — all in your personalized dashboard.')}
-        ${featureCard('📅', 'Practice Schedules', 'Stay on top of daily and weekly workouts. Filter by your group, see changes in real time.')}
-        ${featureCard('💬', 'Coach Communication', 'Message your coaches directly. Get feedback on technique, ask questions, and stay connected.')}
-        ${featureCard('📊', 'Progress Tracking', 'Monitor your personal bests, season goals, and training milestones with visual progress bars.')}
-        ${featureCard('🌙', 'Dark Mode', 'Easy on the eyes for early-morning or late-night check-ins. Toggle instantly from any page.')}
       </div>
     </div>
   </section>
@@ -136,8 +133,8 @@ app.innerHTML = `
       <h2 class="cta-title">Ready to Dive In?</h2>
       <p class="cta-subtitle">Join Dragon Swim Team today and start your competitive journey.</p>
       <div class="cta-actions">
-        <a href="/registration.html" class="btn btn-primary btn-lg">${t('hero_cta')} →</a>
-        <a href="/contact.html" class="btn btn-outline btn-lg" style="border-color: #555; color: #ccc;">Talk to a Coach</a>
+        <a href="${import.meta.env.BASE_URL}registration.html" class="btn btn-primary btn-lg">${t('hero_cta')} →</a>
+        <a href="${import.meta.env.BASE_URL}contact.html" class="btn btn-outline btn-lg" style="border-color: #555; color: #ccc;">Talk to a Coach</a>
       </div>
     </div>
   </section>
@@ -168,7 +165,7 @@ document.querySelectorAll('.animate-on-scroll').forEach(el => {
 // ── Helpers ──
 function seasonCard(season, emoji, accentColor) {
   return `
-    <a href="/registration.html?season=${season}" class="card season-card" style="--season-accent: ${accentColor}">
+    <a href="${import.meta.env.BASE_URL}registration.html?season=${season}" class="card season-card" style="--season-accent: ${accentColor}">
       <div class="season-emoji">${emoji}</div>
       <h3 class="season-name">${t('season_' + season)}</h3>
       <p class="season-dates">${t('season_' + season + '_dates')}</p>
@@ -178,21 +175,12 @@ function seasonCard(season, emoji, accentColor) {
   `;
 }
 
-function featureCard(icon, title, desc) {
-  return `
-    <div class="card feature-card">
-      <div class="feature-icon">${icon}</div>
-      <h3 class="feature-title">${title}</h3>
-      <p class="feature-desc">${desc}</p>
-    </div>
-  `;
-}
 
 function teamCard(name, role, desc) {
   return `
     <div class="card team-card text-center">
       <div class="team-img-placeholder" style="width: 120px; height: 120px; border-radius: 50%; background: var(--border-color); margin: 0 auto var(--space-md); overflow: hidden; border: 3px solid var(--color-primary);">
-        <img src="/placeholder-coach.jpg" alt="${name}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0;" onload="this.style.opacity=1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath fill=%22%23ccc%22 d=%22M50 50c11 0 20-9 20-20s-9-20-20-20-20 9-20 20 9 20 20 20zm0 10c-13.3 0-40 6.7-40 20v10h80V80c0-13.3-26.7-20-40-20z%22/%3E%3C/svg%3E'" />
+        <img src="${import.meta.env.BASE_URL}placeholder-coach.jpg" alt="${name}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0;" onload="this.style.opacity=1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath fill=%22%23ccc%22 d=%22M50 50c11 0 20-9 20-20s-9-20-20-20-20 9-20 20 9 20 20 20zm0 10c-13.3 0-40 6.7-40 20v10h80V80c0-13.3-26.7-20-40-20z%22/%3E%3C/svg%3E'" />
       </div>
       <h3 class="team-name" style="font-family: var(--font-display); font-size: var(--fs-lg); margin-bottom: var(--space-xs);">${name}</h3>
       <p class="team-role" style="font-size: var(--fs-sm); font-weight: var(--fw-semibold); color: var(--color-accent); margin-bottom: var(--space-sm);">${role}</p>

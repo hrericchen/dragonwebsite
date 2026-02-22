@@ -15,17 +15,17 @@ export function renderNavbar() {
   nav.id = 'navbar';
   nav.innerHTML = `
     <div class="nav-container container">
-      <a href="/" class="nav-logo">
-        <img src="/logo-light.jpg" alt="Dragon Swim Team" class="nav-logo-img light-logo" />
-        <img src="/logo-dark.png" alt="Dragon Swim Team" class="nav-logo-img dark-logo" />
+      <a href="${import.meta.env.BASE_URL}" class="nav-logo">
+        <img src="${import.meta.env.BASE_URL}logo-light.jpg" alt="Dragon Swim Team" class="nav-logo-img light-logo" />
+        <img src="${import.meta.env.BASE_URL}logo-dark.png" alt="Dragon Swim Team" class="nav-logo-img dark-logo" />
       </a>
 
       <div class="nav-links" id="nav-links">
-        <a href="/" class="nav-link ${isActive('/')}">${t('nav_home')}</a>
-        <a href="/dashboard.html" class="nav-link ${isActive('/dashboard.html')}">Dashboard</a>
-        <a href="/registration.html" class="nav-link ${isActive('/registration.html')}">${t('nav_registration')}</a>
-        <a href="/contact.html" class="nav-link ${isActive('/contact.html')}">${t('nav_contact')}</a>
-        <a href="/signin.html" class="nav-link nav-link-signin ${isActive('/signin.html')}">${t('nav_signin')}</a>
+        <a href="${import.meta.env.BASE_URL}" class="nav-link ${isActive(import.meta.env.BASE_URL)}">${t('nav_home')}</a>
+        <a href="${import.meta.env.BASE_URL}dashboard.html" class="nav-link ${isActive(import.meta.env.BASE_URL + 'dashboard.html')}">Dashboard</a>
+        <a href="${import.meta.env.BASE_URL}registration.html" class="nav-link ${isActive(import.meta.env.BASE_URL + 'registration.html')}">${t('nav_registration')}</a>
+        <a href="${import.meta.env.BASE_URL}contact.html" class="nav-link ${isActive(import.meta.env.BASE_URL + 'contact.html')}">${t('nav_contact')}</a>
+        <a href="${import.meta.env.BASE_URL}signin.html" class="nav-link nav-link-signin ${isActive(import.meta.env.BASE_URL + 'signin.html')}">${t('nav_signin')}</a>
       </div>
 
       <div class="nav-actions">
@@ -67,7 +67,7 @@ export function renderNavbar() {
 
 function isActive(path) {
   const current = window.location.pathname;
-  if (path === '/' && (current === '/' || current === '/index.html')) return 'active';
-  if (path !== '/' && current === path) return 'active';
+  if (path === import.meta.env.BASE_URL && (current === import.meta.env.BASE_URL || current === import.meta.env.BASE_URL + 'index.html')) return 'active';
+  if (path !== import.meta.env.BASE_URL && current === path) return 'active';
   return '';
 }

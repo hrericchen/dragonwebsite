@@ -41,7 +41,7 @@ app.innerHTML = `
         <p style="margin-bottom: 1.5rem;">Once everything is set, you're officially part of the Dragon Swim Team! Check your dashboard practice schedule to see your first training session.</p>
 
         <div style="text-align: center; margin-top: 2rem;">
-          <a href="/signin.html" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 3rem;">Start Registration / Sign Up</a>
+          <a href="${import.meta.env.BASE_URL}signin.html" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 3rem;">Start Registration / Sign Up</a>
         </div>
       </article>
 
