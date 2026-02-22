@@ -1,11 +1,11 @@
-import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"Endurance Base Building",season:"Winter 2026",daysPerWeek:4,priority:"High",progress:72,tasks:"18 / 25 workouts completed",due:"Feb 28, 2026",status:"In Progress"},{id:2,name:"Sprint Technique Focus",season:"Spring 2026",daysPerWeek:3,priority:"Medium",progress:45,tasks:"9 / 20 workouts completed",due:"Mar 15, 2026",status:"In Progress"},{id:3,name:"Stroke Refinement (Butterfly)",season:"Summer 2026",daysPerWeek:5,priority:"Low",progress:0,tasks:"0 / 12 workouts completed",due:"Apr 30, 2026",status:"Not Started"},{id:4,name:"Fall Conditioning",season:"Fall 2025",daysPerWeek:3,priority:"High",progress:100,tasks:"30 / 30 workouts completed",due:"Nov 20, 2025",status:"Completed"}],n=[{id:1,name:"Regional Championships",date:"Mar 8, 2026",location:"Aquatic Center",events:["100m Free","200m IM","50m Fly"],status:"Registered"},{id:2,name:"Spring Invitational",date:"Apr 12, 2026",location:"City Pool Complex",events:["200m Free","100m Back"],status:"Open"},{id:3,name:"State Qualifiers",date:"May 3, 2026",location:"State Aquatic Facility",events:["100m Free","50m Fly","200m IM"],status:"Open"},{id:4,name:"Winter Classic",date:"Dec 15, 2025",location:"Dragon Home Pool",events:["50m Free","100m Breast"],status:"Completed"}],o=[{day:"Monday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"Endurance & Distance",coach:"Coach Martinez"},{day:"Monday",time:"4:00 PM – 5:30 PM",group:"Intermediate",focus:"Stroke Technique",coach:"Coach Kim"},{day:"Tuesday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"Sprint Training",coach:"Coach Martinez"},{day:"Wednesday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"IM & Medley",coach:"Coach Davis"},{day:"Wednesday",time:"4:00 PM – 5:30 PM",group:"Beginner",focus:"Fundamentals",coach:"Coach Kim"},{day:"Thursday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"Race Pace Sets",coach:"Coach Martinez"},{day:"Friday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"Recovery & Drill",coach:"Coach Davis"},{day:"Saturday",time:"8:00 AM – 10:00 AM",group:"All Levels",focus:"Open Practice",coach:"All Coaches"}];let d="overview";function c(){const a=document.getElementById("app");a.innerHTML=`
+import{i as o,t as v}from"./theme-toggle-BN4tHHK6.js";import{o as p,a as l,s as u}from"./firebase-Dm7jUCH0.js";o();const n=[{id:1,name:"Endurance Base Building",season:"Winter 2026",daysPerWeek:4,priority:"High",progress:72,tasks:"18 / 25 workouts completed",due:"Feb 28, 2026",status:"In Progress"},{id:2,name:"Sprint Technique Focus",season:"Spring 2026",daysPerWeek:3,priority:"Medium",progress:45,tasks:"9 / 20 workouts completed",due:"Mar 15, 2026",status:"In Progress"},{id:3,name:"Stroke Refinement (Butterfly)",season:"Summer 2026",daysPerWeek:5,priority:"Low",progress:0,tasks:"0 / 12 workouts completed",due:"Apr 30, 2026",status:"Not Started"},{id:4,name:"Fall Conditioning",season:"Fall 2025",daysPerWeek:3,priority:"High",progress:100,tasks:"30 / 30 workouts completed",due:"Nov 20, 2025",status:"Completed"}],c=[{id:1,name:"Regional Championships",date:"Mar 8, 2026",location:"Aquatic Center",events:["100m Free","200m IM","50m Fly"],status:"Registered"},{id:2,name:"Spring Invitational",date:"Apr 12, 2026",location:"City Pool Complex",events:["200m Free","100m Back"],status:"Open"},{id:3,name:"State Qualifiers",date:"May 3, 2026",location:"State Aquatic Facility",events:["100m Free","50m Fly","200m IM"],status:"Open"},{id:4,name:"Winter Classic",date:"Dec 15, 2025",location:"Dragon Home Pool",events:["50m Free","100m Breast"],status:"Completed"}],h=[{day:"Monday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"Endurance & Distance",coach:"Coach Martinez"},{day:"Monday",time:"4:00 PM – 5:30 PM",group:"Intermediate",focus:"Stroke Technique",coach:"Coach Kim"},{day:"Tuesday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"Sprint Training",coach:"Coach Martinez"},{day:"Wednesday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"IM & Medley",coach:"Coach Davis"},{day:"Wednesday",time:"4:00 PM – 5:30 PM",group:"Beginner",focus:"Fundamentals",coach:"Coach Kim"},{day:"Thursday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"Race Pace Sets",coach:"Coach Martinez"},{day:"Friday",time:"5:30 AM – 7:00 AM",group:"Competitive",focus:"Recovery & Drill",coach:"Coach Davis"},{day:"Saturday",time:"8:00 AM – 10:00 AM",group:"All Levels",focus:"Open Practice",coach:"All Coaches"}];let d="overview";function r(){document.getElementById("app"),p(l,a=>{if(!a){window.location.href="/dragonwebsite/signin.html";return}m(a)})}function m(a){const e=document.getElementById("app");e.innerHTML=`
     <div class="dash-layout">
       <!-- Sidebar -->
       <aside class="dash-sidebar" id="dash-sidebar">
         <div class="dash-sidebar-header">
-          <a href="/" class="dash-logo">
-            <img src="/logo-light.jpg" alt="Dragon Swim Team" class="dash-logo-img light-logo" />
-            <img src="/logo-dark.png" alt="Dragon Swim Team" class="dash-logo-img dark-logo" />
+          <a href="/dragonwebsite/" class="dash-logo">
+            <img src="/dragonwebsite/logo-light.jpg" alt="Dragon Swim Team" class="dash-logo-img light-logo" />
+            <img src="/dragonwebsite/logo-dark.png" alt="Dragon Swim Team" class="dash-logo-img dark-logo" />
           </a>
         </div>
         <nav class="dash-nav">
@@ -26,7 +26,7 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
           </div>
           <div class="dash-nav-section" style="margin-top: auto;">
             <span class="dash-nav-label">System</span>
-            <a href="/contact.html" class="dash-nav-item" style="text-decoration: none;">
+            <a href="/dragonwebsite/contact.html" class="dash-nav-item" style="text-decoration: none;">
               <span class="dash-nav-icon">💬</span> Messages
             </a>
             <button class="dash-nav-item" id="dash-theme-toggle">
@@ -48,8 +48,8 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
               <span></span><span></span><span></span>
             </button>
             <div>
-              <h1 class="dash-page-title">${h(d)}</h1>
-              <p class="dash-page-subtitle">${v(d)}</p>
+              <h1 class="dash-page-title">${g(d)}</h1>
+              <p class="dash-page-subtitle">${y(d)}</p>
             </div>
           </div>
           <div class="dash-topbar-right">
@@ -58,22 +58,22 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
               <input type="text" class="dash-search-input" placeholder="Search...">
             </div>
             <div class="dash-user">
-              <div class="dash-avatar" id="dash-user-initial">D</div>
-              <div class="dash-user-name" id="dash-user-name-display">Swimmer</div>
+              <div class="dash-avatar" id="dash-user-initial">${(a.displayName||a.email||"D").charAt(0).toUpperCase()}</div>
+              <div class="dash-user-name" id="dash-user-name-display">${a.displayName||a.email||"Swimmer"}</div>
             </div>
           </div>
         </header>
 
         <!-- Dynamic Content -->
         <div class="dash-content">
-          ${p(d)}
+          ${b(d)}
         </div>
       </main>
     </div>
-  `,M(),r(),u()}function h(a){return{overview:"Dashboard",plans:"Swim Plans",meets:"Swim Meets",schedule:"Practice Schedule"}[a]||"Dashboard"}function v(a){return{overview:"Overview of your swim season at a glance",plans:"Track and manage your training plans",meets:"View registered and upcoming competitions",schedule:"Your weekly practice timetable"}[a]||""}function p(a){switch(a){case"overview":return m();case"plans":return $();case"meets":return f();case"schedule":return w();default:return""}}function u(){const a=document.getElementById("sidebar-theme-icon");if(a){const e=document.documentElement.getAttribute("data-theme")==="dark";a.textContent=e?"☀️":"🌙"}}function m(){const a=i.filter(s=>s.status!=="Completed").length,e=i.filter(s=>s.status==="Completed").length,t=n.filter(s=>s.status!=="Completed").length;return`
+  `,T(),o(),$()}function g(a){return{overview:"Dashboard",plans:"Swim Plans",meets:"Swim Meets",schedule:"Practice Schedule"}[a]||"Dashboard"}function y(a){return{overview:"Overview of your swim season at a glance",plans:"Track and manage your training plans",meets:"View registered and upcoming competitions",schedule:"Your weekly practice timetable"}[a]||""}function b(a){switch(a){case"overview":return w();case"plans":return S();case"meets":return P();case"schedule":return k();default:return""}}function $(){const a=document.getElementById("sidebar-theme-icon");if(a){const e=document.documentElement.getAttribute("data-theme")==="dark";a.textContent=e?"☀️":"🌙"}}function w(){const a=n.filter(s=>s.status!=="Completed").length,e=n.filter(s=>s.status==="Completed").length,t=c.filter(s=>s.status!=="Completed").length;return`
     <div class="dash-stats-row">
       <div class="dash-stat-card">
-        <div class="dash-stat-number">${i.length}</div>
+        <div class="dash-stat-number">${n.length}</div>
         <div class="dash-stat-label">Total Plans</div>
       </div>
       <div class="dash-stat-card">
@@ -94,13 +94,13 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
       <div class="dash-panel">
         <h3 class="dash-panel-title">Active Swim Plans</h3>
         <div class="dash-panel-body">
-          ${i.filter(s=>s.status!=="Completed").map(s=>g(s)).join("")}
+          ${n.filter(s=>s.status!=="Completed").map(s=>f(s)).join("")}
         </div>
       </div>
       <div class="dash-panel">
         <h3 class="dash-panel-title">Upcoming Meets</h3>
         <div class="dash-panel-body">
-          ${n.filter(s=>s.status!=="Completed").map(s=>y(s)).join("")}
+          ${c.filter(s=>s.status!=="Completed").map(s=>M(s)).join("")}
         </div>
       </div>
     </div>
@@ -108,10 +108,10 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
     <div class="dash-panel">
       <h3 class="dash-panel-title">Today's Practice</h3>
       <div class="dash-panel-body">
-        ${b()}
+        ${C()}
       </div>
     </div>
-  `}function g(a){return`
+  `}function f(a){return`
     <div class="dash-mini-card">
       <div class="dash-mini-top">
         <span class="dash-mini-name">${a.name}</span>
@@ -122,7 +122,7 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
         <span class="dash-progress-pct">${a.progress}%</span>
       </div>
     </div>
-  `}function y(a){return`
+  `}function M(a){return`
     <div class="dash-mini-card">
       <div class="dash-mini-top">
         <span class="dash-mini-name">${a.name}</span>
@@ -130,7 +130,7 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
       </div>
       <div class="dash-mini-meta">${a.date} · ${a.location}</div>
     </div>
-  `}function b(){const e=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][new Date().getDay()],t=o.filter(s=>s.day===e);return t.length===0?`<p class="dash-empty">No practices scheduled for today (${e}). Rest day! 🎉</p>`:t.map(s=>`
+  `}function C(){const e=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][new Date().getDay()],t=h.filter(s=>s.day===e);return t.length===0?`<p class="dash-empty">No practices scheduled for today (${e}). Rest day! 🎉</p>`:t.map(s=>`
     <div class="dash-mini-card">
       <div class="dash-mini-top">
         <span class="dash-mini-name">${s.focus}</span>
@@ -138,9 +138,9 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
       </div>
       <div class="dash-mini-meta">${s.time} · ${s.coach}</div>
     </div>
-  `).join("")}function $(){return`
+  `).join("")}function S(){return`
     <div class="dash-cards-grid">
-      ${i.map(a=>`
+      ${n.map(a=>`
         <div class="dash-card">
           <div class="dash-card-header">
             <h3 class="dash-card-title">${a.name}</h3>
@@ -167,9 +167,9 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
         </div>
       `).join("")}
     </div>
-  `}function f(){return`
+  `}function P(){return`
     <div class="dash-cards-grid">
-      ${n.map(a=>`
+      ${c.map(a=>`
         <div class="dash-card">
           <div class="dash-card-header">
             <h3 class="dash-card-title">${a.name}</h3>
@@ -191,9 +191,9 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
         </div>
       `).join("")}
     </div>
-  `}function w(){return`
+  `}function k(){return`
     <div class="dash-schedule-grid">
-      ${["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"].map(e=>{const t=o.filter(s=>s.day===e);return`
+      ${["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"].map(e=>{const t=h.filter(s=>s.day===e);return`
           <div class="dash-schedule-day">
             <h3 class="dash-schedule-day-name">${e}</h3>
             ${t.length===0?'<p class="dash-empty-sm">No practice</p>':t.map(s=>`
@@ -209,4 +209,4 @@ import{i as r,t as l}from"./theme-toggle-BN4tHHK6.js";r();const i=[{id:1,name:"E
           </div>
         `}).join("")}
     </div>
-  `}function M(){var t;document.querySelectorAll(".dash-nav-item[data-tab]").forEach(s=>{s.addEventListener("click",()=>{d=s.dataset.tab,c()})}),(t=document.getElementById("dash-theme-toggle"))==null||t.addEventListener("click",()=>{l(),c()});const a=document.getElementById("dash-hamburger"),e=document.getElementById("dash-sidebar");a==null||a.addEventListener("click",()=>{e.classList.toggle("open")}),document.querySelectorAll(".dash-register-btn").forEach(s=>{s.addEventListener("click",()=>{window.location.href="/registration.html"})})}c();
+  `}function T(){var t,s;document.querySelectorAll(".dash-nav-item[data-tab]").forEach(i=>{i.addEventListener("click",()=>{d=i.dataset.tab,r()})}),(t=document.getElementById("dash-theme-toggle"))==null||t.addEventListener("click",()=>{v(),r()});const a=document.getElementById("dash-hamburger"),e=document.getElementById("dash-sidebar");a==null||a.addEventListener("click",()=>{e.classList.toggle("open")}),document.querySelectorAll(".dash-register-btn").forEach(i=>{i.addEventListener("click",()=>{window.location.href="/dragonwebsite/registration.html"})}),(s=document.getElementById("sidebar-signout"))==null||s.addEventListener("click",async()=>{try{await u(l),window.location.href="/dragonwebsite/signin.html"}catch(i){console.error("Error signing out:",i)}})}r();
