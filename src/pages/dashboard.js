@@ -39,8 +39,9 @@ const coachRoster = [
 // App State
 let currentTab = 'overview';
 let isMobileMenuOpen = false;
+let isInitialized = false;
 
-function render() {
+function initApp() {
   const app = document.getElementById('app');
 
   // Add auth check before rendering content
@@ -56,12 +57,22 @@ function render() {
       const userDoc = await getDoc(doc(db, "users", user.uid));
       userRole = (user.email === 'dragonswim@outlook.com') ? 'coach' : (userDoc.exists() ? userDoc.data().role : 'swimmer');
 
-      // Initialize Real-time Listeners
-      initDataListeners();
+      // Initialize Real-time Listeners ONLY ONCE
+      if (!isInitialized) {
+        initDataListeners();
+        isInitialized = true;
+      } else {
+        refreshUI();
+      }
     } catch (error) {
       console.error("Error fetching user data:", error);
       userRole = 'swimmer';
-      initDataListeners();
+      if (!isInitialized) {
+        initDataListeners();
+        isInitialized = true;
+      } else {
+        refreshUI();
+      }
     }
   });
 }
@@ -83,6 +94,7 @@ function initDataListeners() {
 }
 
 function refreshUI() {
+  if (!currentUser) return;
   if (userRole === 'coach') {
     renderCoachDashboard(currentUser);
   } else {
@@ -454,13 +466,14 @@ function miniPlanCard(plan) {
 }
 
 function miniMeetCard(meet) {
+  const status = meet.status || 'Open';
   return `
     <div class="dash-mini-card">
       <div class="dash-mini-top">
-        <span class="dash-mini-name">${meet.name}</span>
-        <span class="status-badge status-${meet.status.toLowerCase().replace(' ', '-')}">${meet.status}</span>
+        <span class="dash-mini-name">${meet.name || 'Untitled Meet'}</span>
+        <span class="status-badge status-${status.toLowerCase().replace(' ', '-')}">${status}</span>
       </div>
-      <div class="dash-mini-meta">${meet.date} · ${meet.location}</div>
+      <div class="dash-mini-meta">${meet.date || ''} · ${meet.location || ''}</div>
     </div>
   `;
 }
@@ -639,14 +652,14 @@ function bindEvents() {
   document.querySelectorAll('.dash-nav-item[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => {
       currentTab = btn.dataset.tab;
-      render();
+      refreshUI();
     });
   });
 
   // Theme toggle
   document.getElementById('dash-theme-toggle')?.addEventListener('click', () => {
     toggleTheme();
-    render();
+    refreshUI();
   });
 
   // Mobile sidebar toggle
@@ -769,4 +782,4 @@ function bindEvents() {
 }
 
 // Initial render
-render();
+initApp();
