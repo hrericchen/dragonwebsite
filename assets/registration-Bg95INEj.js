@@ -1,4 +1,4 @@
-import{i as e}from"./theme-toggle-BN4tHHK6.js";import{r as t,a as r}from"./footer-DhSf7lCj.js";e();t();const a=document.getElementById("app");a.innerHTML=`
+import{i as e}from"./theme-toggle-BN4tHHK6.js";import{r as t,a as r}from"./footer-3ryIaRvr.js";e();t();const a=document.getElementById("app");a.innerHTML=`
   <section class="section" style="min-height: calc(100vh - var(--nav-height)); display: flex; align-items: center;">
     <div class="container" style="max-width: 800px;">
       <div class="text-center" style="margin-bottom: var(--space-2xl);">
@@ -22,7 +22,7 @@ import{i as e}from"./theme-toggle-BN4tHHK6.js";import{r as t,a as r}from"./foote
         <p style="margin-bottom: 1.5rem;">Once everything is set, you're officially part of the Dragon Swim Team! Check your dashboard practice schedule to see your first training session.</p>
 
         <div style="text-align: center; margin-top: 2rem;">
-          <a href="/signin.html" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 3rem;">Start Registration / Sign Up</a>
+          <a href="/dragonwebsite/signin.html" class="btn btn-primary" style="font-size: 1.25rem; padding: 1rem 3rem;">Start Registration / Sign Up</a>
         </div>
       </article>
 

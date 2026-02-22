@@ -1,4 +1,4 @@
-import{i as t}from"./theme-toggle-BN4tHHK6.js";import{r as a,a as o}from"./footer-DhSf7lCj.js";t();a();const s=document.getElementById("app");s.innerHTML=`
+import{i as o}from"./theme-toggle-BN4tHHK6.js";import{r as s,a as l}from"./footer-3ryIaRvr.js";o();s();const r=document.getElementById("app");r.innerHTML=`
   <section class="section" style="min-height: calc(100vh - var(--nav-height)); display: flex; align-items: center;">
     <div class="container" style="max-width: 800px;">
       <div class="text-center" style="margin-bottom: var(--space-2xl);">
@@ -50,4 +50,4 @@ import{i as t}from"./theme-toggle-BN4tHHK6.js";import{r as a,a as o}from"./foote
       </div>
     </div>
   </section>
-`;o();document.getElementById("contact-form").addEventListener("submit",e=>{e.preventDefault(),document.getElementById("contact-form").style.display="none",document.getElementById("contact-success").style.display="block"});
+`;l();document.getElementById("contact-form").addEventListener("submit",e=>{e.preventDefault(),document.getElementById("contact-form").style.display="none",document.getElementById("contact-success").style.display="block"});const c={root:null,rootMargin:"0px",threshold:.15},i=new IntersectionObserver((e,a)=>{e.forEach(t=>{t.isIntersecting&&(t.target.classList.add("animate-visible"),a.unobserve(t.target))})},c);document.querySelectorAll(".animate-on-scroll").forEach(e=>{i.observe(e)});
