@@ -10,7 +10,7 @@ import './dashboard.css';
 
 import { initTheme, toggleTheme, updateToggleIcon } from '../components/theme-toggle.js';
 import { t } from '../utils/i18n.js';
-import { auth, onAuthStateChanged, signOut } from '../utils/firebase.js';
+import { auth, db, doc, getDoc, onAuthStateChanged, signOut } from '../utils/firebase.js';
 
 initTheme();
 
@@ -40,6 +40,14 @@ const practiceSchedules = [
   { day: 'Saturday', time: '8:00 AM – 10:00 AM', group: 'All Levels', focus: 'Open Practice', coach: 'All Coaches' },
 ];
 
+const coachRoster = [
+  { id: 101, name: 'Alice Thompson', group: 'Competitive', age: 14, rank: 'Regional' },
+  { id: 102, name: 'Bob Wilson', group: 'Intermediate', age: 12, rank: 'Novice' },
+  { id: 103, name: 'Charlie Brown', group: 'Competitive', age: 15, rank: 'State' },
+  { id: 104, name: 'Daisy Miller', group: 'Beginner', age: 10, rank: 'Novice' },
+  { id: 105, name: 'Ethan Hunt', group: 'Competitive', age: 16, rank: 'National' },
+];
+
 // App State
 let currentTab = 'overview';
 let isMobileMenuOpen = false;
@@ -48,15 +56,35 @@ function render() {
   const app = document.getElementById('app');
 
   // Add auth check before rendering content
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, async (user) => {
     if (!user) {
       // Not signed in, redirect
       window.location.href = import.meta.env.BASE_URL + 'signin.html';
       return; // Stop rendering
     }
 
-    // User is signed in, display dashboard
-    renderDashboard(user);
+    try {
+      // Fetch user role from Firestore
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      let role = "swimmer"; // Default fallback
+
+      // Override for specific coach email per user request
+      if (user.email === 'dragonswim@outlook.com') {
+        role = 'coach';
+      } else if (userDoc.exists()) {
+        role = userDoc.data().role || "swimmer";
+      }
+
+      if (role === "coach") {
+        renderCoachDashboard(user);
+      } else {
+        renderDashboard(user);
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      // Fallback to normal dashboard if database fails
+      renderDashboard(user);
+    }
   });
 }
 
@@ -130,7 +158,7 @@ function renderDashboard(user) {
 
         <!-- Dynamic Content -->
         <div class="dash-content">
-          ${renderTabContent(currentTab)}
+          ${renderTabContent(currentTab, 'swimmer')}
         </div>
       </main>
     </div>
@@ -141,7 +169,91 @@ function renderDashboard(user) {
   updateSidebarThemeIcon();
 }
 
-function getTabTitle(tab) {
+function renderCoachDashboard(user) {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="dash-layout">
+      <!-- Sidebar -->
+      <aside class="dash-sidebar" id="dash-sidebar">
+        <div class="dash-sidebar-header">
+          <a href="${import.meta.env.BASE_URL}" class="dash-logo">
+            <img src="${import.meta.env.BASE_URL}logo-light.jpg" alt="Dragon Swim Team" class="dash-logo-img light-logo" />
+            <img src="${import.meta.env.BASE_URL}logo-dark.png" alt="Dragon Swim Team" class="dash-logo-img dark-logo" />
+          </a>
+        </div>
+        <nav class="dash-nav">
+          <div class="dash-nav-section">
+            <span class="dash-nav-label">Coach Menu</span>
+            <button class="dash-nav-item ${currentTab === 'overview' ? 'active' : ''}" data-tab="overview">
+              <span class="dash-nav-icon">🏠</span> Overview
+            </button>
+            <button class="dash-nav-item ${currentTab === 'roster' ? 'active' : ''}" data-tab="roster">
+              <span class="dash-nav-icon">👥</span> Swimmer Roster
+            </button>
+            <button class="dash-nav-item ${currentTab === 'meets' ? 'active' : ''}" data-tab="meets">
+              <span class="dash-nav-icon">🏁</span> Meet Management
+            </button>
+            <button class="dash-nav-item ${currentTab === 'schedule' ? 'active' : ''}" data-tab="schedule">
+              <span class="dash-nav-icon">⏱️</span> Practice Schedule
+            </button>
+          </div>
+          <div class="dash-nav-section" style="margin-top: auto;">
+            <span class="dash-nav-label">System</span>
+            <button class="dash-nav-item" id="dash-theme-toggle">
+              <span class="dash-nav-icon" id="sidebar-theme-icon">🌙</span> Theme
+            </button>
+            <button class="dash-nav-item" id="sidebar-signout" style="color: var(--color-accent); margin-top: var(--space-md);">
+              <span class="dash-nav-icon">🚪</span> Sign Out
+            </button>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="dash-main">
+        <!-- Topbar -->
+        <header class="dash-topbar">
+          <div class="dash-topbar-left">
+            <button class="dash-hamburger" id="dash-hamburger">
+              <span></span><span></span><span></span>
+            </button>
+            <div>
+              <h1 class="dash-page-title">Coach: ${getTabTitle(currentTab, 'coach')}</h1>
+              <p class="dash-page-subtitle">Managing the Dragon Swim Team roster and sessions</p>
+            </div>
+          </div>
+          <div class="dash-topbar-right">
+             <div class="badge badge-primary" style="margin-right: 1rem;">Coach Mode</div>
+            <div class="dash-user">
+              <div class="dash-avatar" style="background: var(--color-accent); color: white;">${(user.displayName || user.email || 'C').charAt(0).toUpperCase()}</div>
+              <div class="dash-user-name">${user.displayName || user.email || 'Coach'}</div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Dynamic Content -->
+        <div class="dash-content">
+          ${renderTabContent(currentTab, 'coach')}
+        </div>
+      </main>
+    </div>
+  `;
+
+  bindEvents();
+  initTheme();
+  updateSidebarThemeIcon();
+}
+
+function getTabTitle(tab, role = 'swimmer') {
+  if (role === 'coach') {
+    const titles = {
+      'overview': 'Coach Dashboard',
+      'roster': 'Team Roster',
+      'meets': 'Meet Management',
+      'schedule': 'Season Schedule',
+    };
+    return titles[tab] || 'Coach Dashboard';
+  }
   const titles = {
     'overview': 'Dashboard',
     'plans': 'Swim Plans',
@@ -161,7 +273,16 @@ function getTabSubtitle(tab) {
   return subs[tab] || '';
 }
 
-function renderTabContent(tab) {
+function renderTabContent(tab, role = 'swimmer') {
+  if (role === 'coach') {
+    switch (tab) {
+      case 'overview': return renderCoachOverview();
+      case 'roster': return renderCoachRoster();
+      case 'meets': return renderSwimMeets(); // Reuse for now
+      case 'schedule': return renderSchedule(); // Reuse for now
+      default: return renderCoachOverview();
+    }
+  }
   switch (tab) {
     case 'overview': return renderOverview();
     case 'plans': return renderSwimPlans();
@@ -177,6 +298,95 @@ function updateSidebarThemeIcon() {
     const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
     themeIcon.textContent = isDark ? '☀️' : '🌙';
   }
+}
+
+// ── Coach Specific Tab Views ──
+function renderCoachOverview() {
+  return `
+    <div class="dash-stats-row">
+      <div class="dash-stat-card">
+        <div class="dash-stat-number">${coachRoster.length}</div>
+        <div class="dash-stat-label">Active Athletes</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-stat-number">12</div>
+        <div class="dash-stat-label">New Registrations</div>
+      </div>
+      <div class="dash-stat-card accent">
+        <div class="dash-stat-number">4</div>
+        <div class="dash-stat-label">Upcoming Meets</div>
+      </div>
+      <div class="dash-stat-card">
+        <div class="dash-stat-number">85%</div>
+        <div class="dash-stat-label">Practice Attendance</div>
+      </div>
+    </div>
+
+    <div class="dash-overview-grid">
+      <div class="dash-panel">
+        <h3 class="dash-panel-title">Top Athletes</h3>
+        <div class="dash-panel-body">
+          ${coachRoster.slice(0, 3).map(s => `
+            <div class="dash-mini-card">
+               <div class="dash-mini-top">
+                <span class="dash-mini-name">${s.name}</span>
+                <span class="badge badge-primary">${s.rank}</span>
+              </div>
+              <div class="dash-mini-meta">Group: ${s.group} · Age: ${s.age}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <div class="dash-panel">
+        <h3 class="dash-panel-title">Recent Announcements</h3>
+        <div class="dash-panel-body">
+          <div class="dash-mini-card">
+            <div class="dash-mini-top"><span class="dash-mini-name">Meet Registration Deadline</span></div>
+            <div class="dash-mini-meta">Sent to 45 parents · 2 hours ago</div>
+          </div>
+          <div class="dash-mini-card">
+            <div class="dash-mini-top"><span class="dash-mini-name">New Training Equipment</span></div>
+            <div class="dash-mini-meta">Sent to all coaches · Yesterday</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderCoachRoster() {
+  return `
+    <div class="dash-panel">
+      <div class="dash-panel-header" style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 class="dash-panel-title">Team Management</h3>
+        <button class="btn btn-primary btn-sm">+ Add Swimmer</button>
+      </div>
+      <div class="dash-panel-body">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-muted);">
+              <th style="padding: 1rem;">Name</th>
+              <th style="padding: 1rem;">Group</th>
+              <th style="padding: 1rem;">Age</th>
+              <th style="padding: 1rem;">Rank</th>
+              <th style="padding: 1rem;">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${coachRoster.map(s => `
+              <tr style="border-bottom: 1px solid var(--border-color);">
+                <td style="padding: 1rem; font-weight: 500;">${s.name}</td>
+                <td style="padding: 1rem;"><span class="group-badge">${s.group}</span></td>
+                <td style="padding: 1rem;">${s.age}</td>
+                <td style="padding: 1rem;"><span class="status-badge status-registered">${s.rank}</span></td>
+                <td style="padding: 1rem;"><button class="btn btn-outline btn-sm">Edit</button></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
 }
 
 // ── Overview Tab ──
