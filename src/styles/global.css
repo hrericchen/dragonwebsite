@@ -172,12 +172,13 @@ body {
 }
 
 .badge-primary {
-    background: rgba(245, 197, 24, 0.15);
-    color: var(--color-primary-dark);
+    background: rgba(245, 197, 24, 0.1);
+    color: #9A7700;
 }
 
 [data-theme="dark"] .badge-primary {
-    color: var(--color-primary);
+    background: rgba(245, 197, 24, 0.08);
+    color: var(--color-secondary);
 }
 
 /* ── Utility ── */
