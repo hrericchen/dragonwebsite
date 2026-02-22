@@ -9,7 +9,18 @@ import {
     signOut,
     updateProfile
 } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    collection,
+    addDoc,
+    deleteDoc,
+    onSnapshot,
+    query,
+    orderBy
+} from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCCvxJPxLgmMvMW0DJpy44C5p2ACbLqf1E",
@@ -40,5 +51,11 @@ export {
     updateProfile,
     doc,
     setDoc,
-    getDoc
+    getDoc,
+    collection,
+    addDoc,
+    deleteDoc,
+    onSnapshot,
+    query,
+    orderBy
 };
