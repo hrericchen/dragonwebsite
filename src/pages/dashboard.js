@@ -4038,12 +4038,30 @@ function bindEvents() {
     refreshUI();
   });
 
-  // Mobile sidebar toggle
+  // Mobile sidebar toggle — drawer + dim overlay. Overlay click / Escape closes it.
   const hamburger = document.getElementById('dash-hamburger');
   const sidebar = document.getElementById('dash-sidebar');
-  hamburger?.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
+  const dashLayout = sidebar?.closest('.dash-layout');
+  let dashOverlay = null;
+  const closeDashDrawer = () => {
+    sidebar?.classList.remove('open');
+    dashLayout?.classList.remove('menu-open');
+    if (dashOverlay) { dashOverlay.remove(); dashOverlay = null; }
+  };
+  hamburger?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = !sidebar.classList.contains('open');
+    if (willOpen && !dashOverlay && dashLayout) {
+      dashOverlay = document.createElement('div');
+      dashOverlay.className = 'dash-overlay';
+      dashOverlay.setAttribute('data-testid', 'dash-overlay');
+      dashOverlay.addEventListener('click', closeDashDrawer);
+      dashLayout.appendChild(dashOverlay);
+    }
+    sidebar.classList.toggle('open', willOpen);
+    dashLayout?.classList.toggle('menu-open', willOpen);
   });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeDashDrawer(); });
 
   // Sign out button
   document.getElementById('sidebar-signout')?.addEventListener('click', async () => {

@@ -91,7 +91,12 @@ function render() {
 
       <main class="admin-main">
         <header class="admin-topbar">
-          <h1 class="admin-page-title">${currentTab === 'coach' ? 'Add Coach' : currentTab === 'family' ? 'Add Family' : currentTab === 'editreg' ? 'Edit Registrations' : 'Export Data'}</h1>
+          <div class="admin-topbar-left">
+            <button class="admin-hamburger" id="admin-hamburger" aria-label="Toggle menu" title="Menu">
+              <span></span><span></span><span></span>
+            </button>
+            <h1 class="admin-page-title">${currentTab === 'coach' ? 'Add Coach' : currentTab === 'family' ? 'Add Family' : currentTab === 'editreg' ? 'Edit Registrations' : 'Export Data'}</h1>
+          </div>
         </header>
         <div class="admin-content">
           ${currentTab === 'coach' ? renderCoachView() : currentTab === 'family' ? renderFamilyView() : currentTab === 'editreg' ? renderEditRegView() : renderExportView()}
@@ -228,14 +233,16 @@ function renderExportView() {
       <h3>Export All Registration Data</h3>
       <p class="admin-hint">Download a CSV file with every swimmer and their family contact information.</p>
 
-      <table class="admin-table" style="margin: 1.5rem 0; max-width: 600px;">
-        <thead>
-          <tr>${statHeaders.map(h => `<th>${h}</th>`).join('')}</tr>
-        </thead>
-        <tbody>
-          <tr>${statValues.map(v => `<td style="font-weight: 600; font-size: 1.1rem;">${v}</td>`).join('')}</tr>
-        </tbody>
-      </table>
+      <div class="admin-table-wrapper" style="margin: 1.5rem 0; max-width: 600px;">
+        <table class="admin-table">
+          <thead>
+            <tr>${statHeaders.map(h => `<th>${h}</th>`).join('')}</tr>
+          </thead>
+          <tbody>
+            <tr>${statValues.map(v => `<td style="font-weight: 600; font-size: 1.1rem;">${v}</td>`).join('')}</tr>
+          </tbody>
+        </table>
+      </div>
 
       <div class="admin-panel" style="background: var(--bg-secondary, #f9fafb); margin-top: 1.5rem;">
         <h4>CSV Columns</h4>
@@ -606,6 +613,31 @@ async function saveEditRegistration(regId, overlay) {
 
 // ── Events ──────────────────────────────────────────────────────
 function bindEvents() {
+  // Mobile sidebar toggle — drawer + dim overlay; overlay click / Escape closes
+  const adminHam = document.getElementById('admin-hamburger');
+  const adminSb = document.querySelector('.admin-sidebar');
+  const adminLayout = document.querySelector('.admin-layout');
+  let adminOverlay = null;
+  const closeAdminDrawer = () => {
+    adminSb?.classList.remove('open');
+    adminLayout?.classList.remove('menu-open');
+    if (adminOverlay) { adminOverlay.remove(); adminOverlay = null; }
+  };
+  adminHam?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = !adminSb.classList.contains('open');
+    if (willOpen && !adminOverlay && adminLayout) {
+      adminOverlay = document.createElement('div');
+      adminOverlay.className = 'admin-overlay';
+      adminOverlay.setAttribute('data-testid', 'admin-overlay');
+      adminOverlay.addEventListener('click', closeAdminDrawer);
+      adminLayout.appendChild(adminOverlay);
+    }
+    adminSb.classList.toggle('open', willOpen);
+    adminLayout?.classList.toggle('menu-open', willOpen);
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAdminDrawer(); });
+
   // Tab switching
   document.querySelectorAll('.admin-nav-item[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => {

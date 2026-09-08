@@ -1638,3 +1638,63 @@ input[readonly].profile-edit-field {
 .ath-cell-btn.st-confirmed { background: #16a34a; color: #fff; border-color: #16a34a; }
 .ath-cell-btn.st-undecided { background: #d97706; color: #fff; border-color: #d97706; }
 .sched-view-toggle .btn { padding: 4px 10px; }
+
+/* ═══════════════════════════════════════════════════════════════
+   Mobile hardening — 2026-09 (P0 layout base + P1 drawer + P2 grids)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* 1) Flex children may shrink — wide tables/grids stay inside their
+      overflow-x wrappers instead of widening the whole page. */
+.dash-main { min-width: 0; }
+
+/* 2) Off-canvas drawer overlay (JS toggles .menu-open on .dash-layout) */
+.dash-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-fast);
+    z-index: 95; /* below sidebar (100), above topbar (50) and content */
+}
+.dash-layout.menu-open .dash-overlay { opacity: 1; pointer-events: auto; }
+
+/* 3) Grids & cards: tracks shrink below their content min-width */
+.dash-card, .dash-stat-card, .dash-schedule-day, .dash-panel { min-width: 0; }
+
+@media (max-width: 1024px) {
+    .dash-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dash-cards-grid { grid-template-columns: minmax(0, 1fr); }
+    .dash-schedule-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+    .dash-schedule-grid { grid-template-columns: minmax(0, 1fr); }
+    .dash-card-header, .dash-card-meta, .dash-mini-top, .dash-card-badges { flex-wrap: wrap; }
+}
+
+@media (max-width: 560px) {
+    .dash-content { padding: var(--space-md); }
+    .dash-topbar { padding: var(--space-md) var(--space-md); gap: var(--space-sm); }
+    .dash-topbar-left { min-width: 0; flex: 1; }
+    .dash-topbar-left > div { min-width: 0; }
+    .dash-page-title { font-size: var(--fs-lg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dash-page-subtitle { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dash-topbar-right { gap: var(--space-sm); flex-shrink: 0; }
+    /* Coach/admin mode pill crowds the top bar on phones — avatar menu keeps identity */
+    .dash-topbar-right > .badge-primary { display: none; }
+    .dash-user-trigger { padding: 4px 8px 4px 4px; }
+    .dash-panel-title { padding: var(--space-md) var(--space-md) var(--space-xs); }
+    .dash-panel-body { padding: var(--space-sm) var(--space-md) var(--space-md); }
+    .dash-stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-sm); }
+    .dash-stat-card { padding: var(--space-md) var(--space-sm); }
+    .dash-stat-number { font-size: var(--fs-2xl); }
+    .dash-stat-label { letter-spacing: 0.03em; overflow-wrap: anywhere; }
+    .dash-overview-grid, .dash-cards-grid { gap: var(--space-md); }
+    .dash-card-header { padding: var(--space-md) var(--space-md) var(--space-xs); }
+    .dash-card-body { padding: var(--space-sm) var(--space-md) var(--space-md); }
+    .dash-card-title { overflow-wrap: anywhere; }
+    .dash-schedule-day { padding: var(--space-md); }
+    /* Stack inline multi-column form rows on narrow phones */
+    .form-row { grid-template-columns: 1fr !important; }
+}
