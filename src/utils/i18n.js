@@ -188,21 +188,18 @@ const translations = {
         dash_user_menu_signout: '🚪 Sign Out',
 
         // ── Dashboard — Swimmer ──
-        dash_swimmer_overview_label: 'Overview',
         dash_swimmer_profile_label: 'Profile',
         dash_swimmer_plans_label: 'Swim Plans',
         dash_swimmer_meets_label: 'Swim Meets',
         dash_swimmer_schedule_label: 'Schedule',
-        dash_swimmer_tab_overview: 'Dashboard',
         dash_swimmer_tab_profile: 'Family Profile',
         dash_swimmer_tab_plans: 'Swim Plans',
         dash_swimmer_tab_meets: 'Swim Meets',
         dash_swimmer_tab_schedule: 'Practice Schedule',
-        dash_swimmer_overview_sub: 'Overview of your swim season at a glance',
         dash_swimmer_profile_sub: 'Manage your family information and swimmers',
         dash_swimmer_plans_sub: 'Track and manage your training plans',
-        dash_swimmer_meets_sub: 'View registered and upcoming competitions',
-        dash_swimmer_schedule_sub: 'Your weekly practice timetable',
+        dash_swimmer_meets_sub: 'View upcoming competitions',
+        dash_swimmer_schedule_sub: 'Your swimmers\' weekly practice schedule, marked by the coach',
 
         // ── Dashboard — Swimmer Results ──
         dash_swimmer_results_label: 'Results',
@@ -215,14 +212,6 @@ const translations = {
         dash_swimmer_results_no_best_times: 'No best times recorded yet.',
         dash_swimmer_results_no_meets: 'No completed meets recorded yet.',
         dash_swimmer_username_fallback: 'Swimmer',
-        dash_swimmer_total_plans: 'Total Plans',
-        dash_swimmer_active_plans: 'Active Plans',
-        dash_swimmer_completed: 'Completed',
-        dash_swimmer_upcoming_meets: 'Upcoming Meets',
-        dash_swimmer_active_plans_title: 'Active Swim Plans',
-        dash_swimmer_upcoming_meets_title: 'Upcoming Meets',
-        dash_swimmer_today_practice: 'Today\'s Practice',
-        dash_swimmer_rest_day: 'No practices scheduled for today',
         dash_plans_under_construction: '🚧 Under Construction',
 
         // ── Dashboard — Coach ──
@@ -453,6 +442,13 @@ const translations = {
         sched2_view_athlete: 'Athlete view',
         sched2_matrix_hint: 'Click a cell to cycle: empty → ✓ Confirmed → ? Undecided → empty. Overlapping sessions for the same athlete are blocked.',
         sched2_swimmer: 'Swimmer',
+
+        // ── Dashboard — Family (parent) Schedule View ──
+        sched2_family_no_reg: 'No family registration found on this account. Please contact the coach.',
+        sched2_family_no_children: 'No swimmers are registered to this family yet. Please contact the coach.',
+        sched2_family_not_decided: 'No practice schedule has been decided for {name} yet. Please contact the coach.',
+        sched2_family_undecided_note: 'Some sessions are still undecided — please contact the coach to confirm which sessions your child will attend.',
+        sched2_family_contact: 'Contact the coach',
 
         // ── Dashboard — Fee Summary ──
         dash_coach_fee_summary_label: 'Meet Fee Summary',

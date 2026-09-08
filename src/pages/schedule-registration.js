@@ -135,33 +135,101 @@ function slotNamesList(st, slot) {
 
 // ── Family (parent) read-only view ─────────────────────────────
 
-export function renderFamilySchedule(st) {
-  const slots = sortSlots((st.sessionSlots || []).filter(s => s.period === st.currentPeriod));
-  const groups = groupLocations(slots);
-  const label = periodLabel(st.currentPeriod);
+function familySwimmerName(sw) {
+  return [sw.firstName, sw.lastName].filter(Boolean).join(' ') || 'Unknown';
+}
+
+// Per-child weekly practice card. Each row is a session slot the coach has
+// marked for this swimmer: ✓ confirmed (part of their schedule) or
+// ? undecided (pending — ask the coach). Children with no marked sessions
+// get a "not decided yet — contact the coach" notice instead of a schedule.
+function familyChildCard(st, sw, index, slotById) {
+  const name = familySwimmerName(sw);
+  const myEnrollments = (st.enrollments || [])
+    .filter(e => e.regId === st.familyDataId && Number(e.swimmerIndex) === Number(index))
+    .map(e => ({ e, slot: slotById.get(e.slotId) }))
+    .filter(x => x.slot && x.slot.period === st.currentPeriod);
+  const confirmed = sortSlots(myEnrollments.filter(x => x.e.status === 'confirmed').map(x => x.slot));
+  // Anything not confirmed is still pending (undecided or legacy rows) — show as undecided.
+  const undecided = sortSlots(myEnrollments.filter(x => x.e.status !== 'confirmed').map(x => x.slot));
+
+  const contactEmail = t('contact_email_address');
+  const contactLink = contactEmail
+    ? '<a href="mailto:' + esc(contactEmail) + '" style="color:var(--color-primary,#2563eb);">' + t('sched2_family_contact') + '</a>'
+    : '';
+
+  const rowHtml = (slot, status) => {
+    const isConfirmed = status === 'confirmed';
+    const chip = isConfirmed
+      ? '<span style="color:#16a34a;font-weight:600;font-size:0.8rem;white-space:nowrap;">✓ ' + t('sched2_confirmed') + '</span>'
+      : '<span style="color:#d97706;font-weight:600;font-size:0.8rem;white-space:nowrap;">? ' + t('sched2_undecided') + '</span>';
+    const groupChip = slot.groupLabel
+      ? '<span style="display:inline-block;margin-left:8px;background:var(--bg-secondary);color:var(--text-muted);border-radius:6px;padding:1px 8px;font-size:0.75rem;font-weight:500;">' + esc(slot.groupLabel) + '</span>'
+      : '';
+    return `
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border-color);flex-wrap:wrap;">
+        <div style="min-width:0;">
+          <strong style="white-space:nowrap;">${esc(slotTitle(slot))}</strong>${groupChip}
+          <div style="color:var(--text-muted);font-size:0.85rem;margin-top:2px;">${esc(slot.location || '')}</div>
+        </div>
+        ${chip}
+      </div>`;
+  };
+
+  let body;
+  if (confirmed.length === 0 && undecided.length === 0) {
+    // Nothing decided for this swimmer this period — don't fake a schedule.
+    body = `<p class="dash-empty" style="padding:1.2rem 0;">${t('sched2_family_not_decided', { name: esc(name) })}</p>`;
+  } else {
+    body = confirmed.map(s => rowHtml(s, 'confirmed')).join('');
+    if (undecided.length > 0) {
+      body += undecided.map(s => rowHtml(s, 'undecided')).join('');
+      body += '<p style="margin:0.7rem 0 0;color:#d97706;font-size:0.85rem;">⚠️ '
+        + t('sched2_family_undecided_note') + (contactLink ? ' ' + contactLink : '') + '</p>';
+    }
+  }
+
   return `
+    <div class="dash-panel" style="margin-bottom:1.5rem;">
+      <div class="dash-panel-title" style="border-bottom:1px solid var(--border-color);padding-bottom:0.6rem;">🏊 ${esc(name)}</div>
+      <div class="dash-panel-body">${body}</div>
+    </div>`;
+}
+
+export function renderFamilySchedule(st) {
+  const label = periodLabel(st.currentPeriod);
+  const slotById = new Map((st.sessionSlots || []).map(s => [s.id, s]));
+  const header = `
     <div class="dash-section-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
       <div>
         <h2 style="font-size:1.5rem;font-weight:600;color:var(--text-primary);margin:0;">${t('dash_schedule_weekly')}</h2>
-        <p style="margin:4px 0 0;color:var(--text-muted);font-size:0.9rem;">${label}</p>
+        <p style="margin:4px 0 0;color:var(--text-muted);font-size:0.9rem;">${esc(label)}</p>
       </div>
-    </div>
-    ${slots.length === 0
-      ? '<p class="dash-empty">' + t('sched2_no_slots') + '</p>'
-      : groups.map(g => `
-          <div class="dash-panel" style="margin-bottom:1.5rem;">
-            <h3 class="dash-panel-title" style="border-bottom:1px solid var(--border-color);padding-bottom:0.6rem;">${esc(g.location)}</h3>
-            <div class="dash-panel-body">
-              ${g.slots.map(s => `
-                <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed var(--border-color);flex-wrap:wrap;">
-                  <strong style="white-space:nowrap;">${esc(slotTitle(s))}</strong>
-                  <span style="color:var(--text-muted);font-size:0.85rem;">${s.groupLabel ? esc(s.groupLabel) : ''}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `).join('')}
-  `;
+    </div>`;
+
+  const reg = st.familyData;
+  const regId = st.familyDataId;
+  if (!regId || !reg || !Array.isArray(reg.swimmers)) {
+    return header + `
+      <div class="dash-panel" style="text-align:center;padding:2.5rem 2rem;">
+        <p class="dash-empty" style="padding:0;margin-bottom:0.5rem;">${t('sched2_family_no_reg')}</p>
+      </div>`;
+  }
+
+  const children = reg.swimmers.map((sw, index) => ({ sw, index })).filter(x => !x.sw.deleted);
+  if (children.length === 0) {
+    return header + `
+      <div class="dash-panel" style="text-align:center;padding:2.5rem 2rem;">
+        <p class="dash-empty" style="padding:0;margin-bottom:0.5rem;">${t('sched2_family_no_children')}</p>
+      </div>`;
+  }
+
+  const hasSlots = (st.sessionSlots || []).some(s => s.period === st.currentPeriod);
+  if (!hasSlots) {
+    return header + '<p class="dash-empty">' + t('sched2_no_slots') + '</p>';
+  }
+
+  return header + children.map(({ sw, index }) => familyChildCard(st, sw, index, slotById)).join('');
 }
 
 // ── Coach schedule view ────────────────────────────────────────

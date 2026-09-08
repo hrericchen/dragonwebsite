@@ -19,14 +19,6 @@ window.XLSX = XLSX;
 
 initTheme();
 
-// ── Sample Data ──
-const swimPlans = [
-  { id: 1, name: 'Endurance Base Building', season: 'Winter 2026', daysPerWeek: 4, priority: 'High', progress: 72, tasks: '18 / 25 workouts completed', due: 'Feb 28, 2026', status: 'In Progress' },
-  { id: 2, name: 'Sprint Technique Focus', season: 'Spring 2026', daysPerWeek: 3, priority: 'Medium', progress: 45, tasks: '9 / 20 workouts completed', due: 'Mar 15, 2026', status: 'In Progress' },
-  { id: 3, name: 'Stroke Refinement (Butterfly)', season: 'Summer 2026', daysPerWeek: 5, priority: 'Low', progress: 0, tasks: '0 / 12 workouts completed', due: 'Apr 30, 2026', status: 'Not Started' },
-  { id: 4, name: 'Fall Conditioning', season: 'Fall 2025', daysPerWeek: 3, priority: 'High', progress: 100, tasks: '30 / 30 workouts completed', due: 'Nov 20, 2025', status: 'Completed' },
-];
-
 // ── State Storage ──
 let swimMeets = [];
 let editingMeetId = null;
@@ -98,6 +90,12 @@ function initApp() {
       const isCoachEmail = user.email && user.email.toLowerCase() === 'dragonswim@outlook.com';
       userRole = (dbRole === 'coach' || dbRole === 'admin' || isCoachEmail) ? 'coach' : (dbRole || 'swimmer');
       console.log("Dashboard: Detected role:", userRole);
+
+      // 家长端没有 Overview tab(2026-09 移除),登录默认落地 Schedule;
+      // 教练端仍默认 Overview。仅当用户尚未主动切过 tab(currentTab 仍是初始值)时生效。
+      if (userRole !== 'coach' && currentTab === 'overview') {
+        currentTab = 'schedule';
+      }
 
       if (!isInitialized) {
         console.log("Dashboard: Initializing data listeners...");
@@ -267,9 +265,6 @@ function renderDashboard(user) {
         <nav class="dash-nav">
           <div class="dash-nav-section">
             <span class="dash-nav-label">${t('dash_sidebar_menu')}</span>
-            <button class="dash-nav-item ${currentTab === 'overview' ? 'active' : ''}" data-tab="overview">
-              <span class="dash-nav-icon">📊</span> ${t('dash_swimmer_overview_label')}
-            </button>
             <button class="dash-nav-item ${currentTab === 'profile' ? 'active' : ''}" data-tab="profile">
               <span class="dash-nav-icon">👤</span> ${t('dash_swimmer_profile_label')}
             </button>
@@ -466,19 +461,17 @@ function getTabTitle(tab, role = 'swimmer') {
     return titles[tab] || t('dash_coach_tab_overview');
   }
   const titles = {
-    'overview': t('dash_swimmer_tab_overview'),
     'profile': t('dash_swimmer_tab_profile'),
     'plans': t('dash_swimmer_tab_plans'),
     'meets': t('dash_swimmer_tab_meets'),
     'results': t('dash_swimmer_tab_results'),
     'schedule': t('dash_swimmer_tab_schedule'),
   };
-  return titles[tab] || t('dash_swimmer_tab_overview');
+  return titles[tab] || t('dash_swimmer_tab_schedule');
 }
 
 function getTabSubtitle(tab) {
   const subs = {
-    'overview': t('dash_swimmer_overview_sub'),
     'profile': t('dash_swimmer_profile_sub'),
     'plans': t('dash_swimmer_plans_sub'),
     'meets': t('dash_swimmer_meets_sub'),
@@ -502,7 +495,6 @@ function renderTabContent(tab, role = 'swimmer') {
     }
   }
   switch (tab) {
-    case 'overview': return renderOverview();
     case 'profile': return renderProfile();
     case 'plans': return renderSwimPlans();
     case 'meets': return renderSwimMeets();
@@ -2960,106 +2952,6 @@ window.__updateSwimmerPayment = async function (el) {
   }
 };
 
-// ── Overview Tab ──
-function renderOverview() {
-  const activePlans = swimPlans.filter(p => p.status !== 'Completed').length;
-  const completedPlans = swimPlans.filter(p => p.status === 'Completed').length;
-  const upcomingMeets = swimMeets.filter(m => m.status !== 'Completed').length;
-
-  return `
-    <div class="dash-stats-row">
-      <div class="dash-stat-card">
-        <div class="dash-stat-number">${swimPlans.length}</div>
-        <div class="dash-stat-label">${t('dash_swimmer_total_plans')}</div>
-      </div>
-      <div class="dash-stat-card">
-        <div class="dash-stat-number">${activePlans}</div>
-        <div class="dash-stat-label">${t('dash_swimmer_active_plans')}</div>
-      </div>
-      <div class="dash-stat-card accent">
-        <div class="dash-stat-number">${completedPlans}</div>
-        <div class="dash-stat-label">${t('dash_swimmer_completed')}</div>
-      </div>
-      <div class="dash-stat-card">
-        <div class="dash-stat-number">${upcomingMeets}</div>
-        <div class="dash-stat-label">${t('dash_swimmer_upcoming_meets')}</div>
-      </div>
-    </div>
-
-    <div class="dash-overview-grid">
-      <div class="dash-panel">
-        <h3 class="dash-panel-title">${t('dash_swimmer_active_plans_title')}</h3>
-        <div class="dash-panel-body" style="text-align: center; padding: 2rem;">
-          <p style="color: var(--text-secondary);">${t('dash_plans_under_construction')}</p>
-        </div>
-      </div>
-      <div class="dash-panel">
-        <h3 class="dash-panel-title">${t('dash_swimmer_upcoming_meets_title')}</h3>
-        <div class="dash-panel-body">
-          ${swimMeets.filter(m => m.status !== 'Completed').map(m => miniMeetCard(m)).join('')}
-        </div>
-      </div>
-    </div>
-
-    <div class="dash-panel">
-      <h3 class="dash-panel-title">${t('dash_swimmer_today_practice')}</h3>
-      <div class="dash-panel-body">
-        ${renderTodayPractice()}
-      </div>
-    </div>
-  `;
-}
-
-function miniPlanCard(plan) {
-  return `
-    <div class="dash-mini-card">
-      <div class="dash-mini-top">
-        <span class="dash-mini-name">${plan.name}</span>
-        <span class="priority-badge priority-${plan.priority.toLowerCase()}">${plan.priority}</span>
-      </div>
-      <div class="dash-progress-row">
-        <div class="dash-progress-bar"><div class="dash-progress-fill" style="width: ${plan.progress}%"></div></div>
-        <span class="dash-progress-pct">${plan.progress}%</span>
-      </div>
-    </div>
-  `;
-}
-
-function miniMeetCard(meet) {
-  const status = meet.status || 'Open';
-  const dateDisplay = meet.startDate && meet.endDate
-    ? `${meet.startDate} – ${meet.endDate}`
-    : meet.date || '';
-  return `
-    <div class="dash-mini-card">
-      <div class="dash-mini-top">
-        <span class="dash-mini-name">${meet.name || 'Untitled Meet'}</span>
-        <span class="status-badge status-${status.toLowerCase().replace(' ', '-')}">${status}</span>
-      </div>
-      <div class="dash-mini-meta">${dateDisplay} · ${meet.location || ''}</div>
-    </div>
-  `;
-}
-
-function renderTodayPractice() {
-  const todayIndex = new Date().getDay();
-  const today = getDayName(todayIndex);
-  const todayPractices = sessionSlots.filter(s => s.period === currentPeriod && s.day === today);
-
-  if (todayPractices.length === 0) {
-    return `<p class="dash-empty">${t('dash_swimmer_rest_day')} (${today}). Rest day! 🎉</p>`;
-  }
-
-  return todayPractices.map(s => `
-    <div class="dash-mini-card">
-      <div class="dash-mini-top">
-        <span class="dash-mini-name">${s.startTime} – ${s.endTime}</span>
-      </div>
-      <div class="dash-mini-meta">${s.location || ''}</div>
-    </div>
-  `).join('');
-}
-
 // ── Profile Tab ──
 function renderProfile() {
   if (!familyData) {
@@ -3366,6 +3258,8 @@ function renderSchedule() {
     allRegistrations,
     dbRole,
     activeSwimmers: userRole === 'coach' ? getCoachActiveSwimmers() : [],
+    familyData,
+    familyDataId,
   };
   return userRole === 'coach' ? renderCoachSchedule(st) : renderFamilySchedule(st);
 }
